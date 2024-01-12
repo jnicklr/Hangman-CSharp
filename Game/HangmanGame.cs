@@ -11,7 +11,8 @@ namespace Hangman.Game
     {
         public void StartGame()
         {
-            Console.WriteLine("Testando!");
+            Console.WriteLine("Digite o seu nome: ");
+            string nome = Console.ReadLine();
         }
     }
 }

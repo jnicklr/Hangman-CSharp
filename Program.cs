@@ -1,11 +1,10 @@
 ﻿using Hangman.Game;
-using Hangman.Player;
 
 namespace Hangman
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public void Main(string[] args)
         {
             HangmanGame game = new HangmanGame();
         }
