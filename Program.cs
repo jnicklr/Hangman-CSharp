@@ -2,11 +2,12 @@
 
 namespace Hangman
 {
-    public class Program
+    class Program
     {
-        public void Main(string[] args)
+        static void Main(string[] args)
         {
             HangmanGame game = new HangmanGame();
+            game.StartGame();
         }
     }
 }

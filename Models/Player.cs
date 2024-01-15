@@ -8,13 +8,25 @@ namespace Hangman.Models
 {
     public class Player
     {
-        public Player(string name, int life)
+        public Player() { }
+
+        public Player(string name)
         {
             Name = name;
-            Life = life;
         }
 
         public string Name { get; set; }
-        public int Life { get; set; }
+
+        private int Life = 6;
+
+        public void LooseLife()
+        {
+            Life -= 1;
+        }
+
+        public int GetLife() 
+        {
+            return Life;
+        }
     }
 }
