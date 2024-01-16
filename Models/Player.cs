@@ -17,6 +17,8 @@ namespace Hangman.Models
 
         public string Name { get; set; }
 
+        public int Points { get; set; }
+
         private int Life = 6;
 
         public void RestoreLife()

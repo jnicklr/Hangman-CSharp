@@ -18,42 +18,56 @@ namespace Hangman.Game
             player.Name = Console.ReadLine();
         }
 
+        private bool IsGuessInList(List<char> list, char userChoice)
+        {
+            return list.Any(guess => guess == userChoice);
+        }
+
+        private void BlankListUpdate(char[] blankWord, char userChoice, string word, bool canUpdate)
+        {
+            if (canUpdate)
+            {
+                for (int i = 0; i < word.Length; i++)
+                {
+                    if (userChoice == word[i])
+                    {
+                        blankWord[i] = userChoice;
+                    }
+                }
+            }
+        }
+
+        private void HitValidator(bool hit)
+        {
+            if (!hit)
+            {
+                player.LoseLife();
+            }
+            else
+            {
+                player.Points += 1;
+            }
+        }
+
         private void GameLoop()
         {
             char userChoice;
-            int userPoints = 0;
             bool hit = false;
 
             string word = "banana";
             int wordLength = word.Length;
 
-            char[] blankWord = new char[wordLength];
-
-            for (int i = 0; i < wordLength; i++)
-            {
-                blankWord[i] = '*';
-            }
-
-            List<char> uniqueLetters = new List<char>();
-
+            char[] blankWord = WordGenerator.GenerateBlanks(wordLength);
+            List<char> uniqueLetters = WordGenerator.GetUniqueChars(word);
             List<char> userGuesses = new List<char>();
 
-            for (int i = 0; i < wordLength; i++)
-            {
-                if (!(uniqueLetters.Any(letter => letter == word[i])))
-                {
-                    uniqueLetters.Add(Convert.ToChar(word[i]));
-                }
-            }
-
-
-            while (player.GetLife() > 0 && userPoints != uniqueLetters.Count) {
+            while (player.GetLife() > 0 && player.Points != uniqueLetters.Count) {
                 Console.Clear();
                 Console.WriteLine($"Vidas restantes: {player.GetLife()}");
                 Console.WriteLine($"Palavra escondida: {String.Join("", blankWord)}");
                 Console.WriteLine($"Letras: {String.Join("", uniqueLetters)}");
                 Console.WriteLine($"Letras chutadas: {String.Join("", userGuesses)}");
-                Console.WriteLine($"Pontos: {userPoints}");
+                Console.WriteLine($"Pontos: {player.Points}");
                 Console.WriteLine($"Quantidade de Letras: {uniqueLetters.Count}");
                 Console.Write("Digite uma letra: ");
 
@@ -68,35 +82,13 @@ namespace Hangman.Game
                     continue;
                 }
 
-                if (userGuesses.Any(guess => guess == userChoice))
+                if (IsGuessInList(userGuesses, userChoice) == false) // Verificando se a letra está repetida.
                 {
-                    hit = false;
-                }
-                else
-                {
-                    foreach (char letter in uniqueLetters)
-                    {
-                        if (userChoice == letter)
-                        {
-                            userPoints += 1;
-                            hit = true;
-                        }
-                    }
+                    hit = IsGuessInList(uniqueLetters, userChoice); // Verificando se a letra está correta.
                 }
 
-                if (!hit)
-                {
-                    player.LoseLife();
-                } else
-                {
-                    for (int i = 0; i < wordLength; i++)
-                    {
-                        if (userChoice == word[i])
-                        {
-                            blankWord[i] = userChoice;
-                        }
-                    }
-                }
+                HitValidator(hit);
+                BlankListUpdate(blankWord, userChoice, word, hit);
 
                 userGuesses.Add(userChoice);
                 hit = false;
