@@ -19,7 +19,12 @@ namespace Hangman.Models
 
         private int Life = 6;
 
-        public void LooseLife()
+        public void RestoreLife()
+        {
+            Life = 6;
+        }
+
+        public void LoseLife()
         {
             Life -= 1;
         }
