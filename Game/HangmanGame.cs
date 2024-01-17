@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Hangman.Models;
+using Hangman.UI;
 
 namespace Hangman.Game
 {
@@ -62,14 +63,8 @@ namespace Hangman.Game
             List<char> userGuesses = new List<char>();
 
             while (player.GetLife() > 0 && player.Points != uniqueLetters.Count) {
-                Console.Clear();
-                Console.WriteLine($"Vidas restantes: {player.GetLife()}");
-                Console.WriteLine($"Palavra escondida: {String.Join("", blankWord)}");
-                Console.WriteLine($"Letras: {String.Join("", uniqueLetters)}");
-                Console.WriteLine($"Letras chutadas: {String.Join("", userGuesses)}");
-                Console.WriteLine($"Pontos: {player.Points}");
-                Console.WriteLine($"Quantidade de Letras: {uniqueLetters.Count}");
-                Console.Write("Digite uma letra: ");
+
+                ConsoleUI.GameScreen(player.GetLife(), String.Join("", blankWord), String.Join("", userGuesses), player.Points);
 
                 try
                 {
@@ -97,6 +92,7 @@ namespace Hangman.Game
 
         public void StartGame()
         {
+            Console.Clear();
             PlayerInit();
             GameLoop();
         }

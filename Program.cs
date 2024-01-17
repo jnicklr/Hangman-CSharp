@@ -1,4 +1,4 @@
-﻿using Hangman.Game;
+﻿using Hangman.UI;
 
 namespace Hangman
 {
@@ -6,8 +6,17 @@ namespace Hangman
     {
         static void Main(string[] args)
         {
-            HangmanGame game = new HangmanGame();
-            game.StartGame();
+            while (true)
+            {
+                ConsoleUI.Menu();
+                if (short.TryParse(Console.ReadLine(), out short option))
+                {
+                    ConsoleUI.OptionHandler(option);
+                } else
+                {
+                    ConsoleUI.OptionHandler(0);
+                }
+            }
         }
     }
 }
